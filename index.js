@@ -9,6 +9,11 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const allowedOrigins = [
+  'http://localhost:3000', 
+  'https://yt-to-mp3-converter-70efoxzcx-hasinthas-projects.vercel.app'
+];
+
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
@@ -17,11 +22,6 @@ const io = new Server(server, {
     allowedHeaders: ['Content-Type'],
   },
 });
-
-const allowedOrigins = [
-  'http://localhost:3000', 
-  'https://yt-to-mp3-converter-70efoxzcx-hasinthas-projects.vercel.app'
-];
 
 // Enable CORS for HTTP requests
 app.use(cors({
