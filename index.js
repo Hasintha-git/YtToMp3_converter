@@ -12,7 +12,13 @@ const PORT = process.env.PORT || 3000;
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: '*', // Change this to your frontend origin if needed
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
   },
@@ -20,10 +26,11 @@ const io = new Server(server, {
 
 // Enable CORS for HTTP requests
 const allowedOrigins = [
-  'http://localhost:3000', 
-  'https://yt-to-mp3-converter-70efoxzcx-hasinthas-projects.vercel.app'
+  'http://localhost:3000/*', 
+  'https://yt-to-mp3-converter-70efoxzcx-hasinthas-projects.vercel.app/*'
 ];
 
+// Enable CORS for HTTP requests
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -35,7 +42,6 @@ app.use(cors({
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
 }));
-
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
