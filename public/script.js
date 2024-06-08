@@ -1,4 +1,5 @@
-const URL = "http://localhost:3000/api/download";
+
+const URL = "https://yt-to-mp3-converter-pearl.vercel.app/api/download";
 const socket = io(URL);
 
 document.getElementById('convertForm').addEventListener('submit', function(event) {
@@ -56,22 +57,13 @@ function showError(message) {
     document.getElementById('errorContainer').classList.remove('hidden');
 }
 
+
 function isValidYouTubeUrl(url) {
   // Regular expression pattern to match YouTube video URLs
   const youtubePattern = /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)[\w-]{11}(\?.*)?$/;
   return youtubePattern.test(url);
 }
 
-// Function to stop the Socket.IO connection
-function stopSocketConnection() {
-  socket.disconnect();
-  console.log('Socket connection stopped');
-}
-
-// Event listener for stopping the Socket.IO connection
-document.getElementById('stopSocketButton').addEventListener('click', stopSocketConnection);
-
-// Socket.IO event listeners (you can remove these if not needed)
 socket.on("progressEventSocket", (data) => {
   // Handle progress event if needed
 });
@@ -90,9 +82,15 @@ socket.on("errorEventSocket", (data) => {
   showError(data[0]);
 });
 
-// Function to show a specific section and hide others
+function showError(message) {
+  document.getElementById('errorMessage').textContent = message;
+  document.getElementById('errorContainer').classList.remove('hidden');
+}
+
 document.addEventListener("DOMContentLoaded", function () {
+  // Function to show a specific section and hide others
   function showSection(sectionId) {
+    
     document.getElementById('downloadInpForm').classList.add('hidden');
     const sections = document.querySelectorAll(".content-section");
     sections.forEach(section => {
@@ -112,6 +110,8 @@ document.addEventListener("DOMContentLoaded", function () {
   navLinks.forEach(link => {
     link.addEventListener("click", function (event) {
       event.preventDefault(); // Prevent default link behavior
+
+      // Get the href attribute of the clicked link
       const sectionId = link.getAttribute("href").substring(1);
       console.log(sectionId)
       showSection(sectionId);
@@ -119,9 +119,11 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// Function to toggle description visibility
 function toggleDescription(descriptionId) {
+  // Get the description element by ID
   var description = document.getElementById(descriptionId);
+
+  // Toggle the display of the description
   if (description.style.display === "none") {
     description.style.display = "block";
   } else {
