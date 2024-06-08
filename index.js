@@ -12,9 +12,18 @@ const PORT = process.env.PORT || 3000;
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: '*',
+    origin: '*', // Change this to your frontend origin if needed
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type'],
   },
 });
+
+// Enable CORS for HTTP requests
+app.use(cors({
+  origin: '*', // Change this to your frontend origin if needed
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type'],
+}));
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
@@ -22,7 +31,6 @@ app.use(bodyParser.json());
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-
 app.post('/api/download', async (req, res) => {
   const { url } = req.body;
 
@@ -55,7 +63,6 @@ app.post('/stop-socket', (req, res) => {
   io.close(); // Close the Socket.IO server
   res.send('Socket server stopped');
 });
-
 server.listen(PORT, () => {
   console.log('Server is running on port', PORT);
 });
