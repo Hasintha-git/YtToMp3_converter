@@ -1,5 +1,5 @@
-const URL = "https://yt-to-mp3-converter-70efoxzcx-hasinthas-projects.vercel.app/api/download";
-const socket = io("https://yt-to-mp3-converter-70efoxzcx-hasinthas-projects.vercel.app");
+const URL = "https://yt-to-mp3-converter-pearl.vercel.app//api/download";
+const socket = io("https://yt-to-mp3-converter-pearl.vercel.app/");
 
 document.getElementById('convertForm').addEventListener('submit', function(event) {
   event.preventDefault();

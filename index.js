@@ -11,7 +11,8 @@ const PORT = process.env.PORT || 3000;
 
 const allowedOrigins = [
   'http://localhost:3000', 
-  'https://yt-to-mp3-converter-70efoxzcx-hasinthas-projects.vercel.app'
+  'https://yt-to-mp3-converter-pearl.vercel.app',
+  'https://yt-to-mp3-converter-git-main-hasinthas-projects.vercel.app'
 ];
 
 const server = http.createServer(app);
