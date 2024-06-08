@@ -4,8 +4,11 @@ const cors = require('cors');
 const ytdl = require('ytdl-core');
 const { Server } = require('socket.io');
 const http = require('http');
+const path = require('path');
 
 const app = express();
+const PORT = process.env.PORT || 3000;
+
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
@@ -13,8 +16,12 @@ const io = new Server(server, {
   },
 });
 
-app.use(cors());
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 app.post('/api/download', async (req, res) => {
   const { url } = req.body;
@@ -43,6 +50,12 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(5000, () => {
-  console.log('Server is running on port 5000');
+// Endpoint to stop the Socket.IO server
+app.post('/stop-socket', (req, res) => {
+  io.close(); // Close the Socket.IO server
+  res.send('Socket server stopped');
+});
+
+server.listen(PORT, () => {
+  console.log('Server is running on port', PORT);
 });
