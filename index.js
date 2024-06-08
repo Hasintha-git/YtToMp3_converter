@@ -19,11 +19,23 @@ const io = new Server(server, {
 });
 
 // Enable CORS for HTTP requests
+const allowedOrigins = [
+  'http://localhost:3000', 
+  'https://yt-to-mp3-converter-70efoxzcx-hasinthas-projects.vercel.app'
+];
+
 app.use(cors({
-  origin: '*', // Change this to your frontend origin if needed
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
 }));
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
