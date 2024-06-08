@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const ytdl = require('ytdl-core');
-const { Server } = require('socket.io');
+// const { Server } = require('socket.io');
 const http = require('http');
 const path = require('path');
 
@@ -14,14 +14,14 @@ const allowedOrigins = [
   'https://yt-to-mp3-converter-70efoxzcx-hasinthas-projects.vercel.app'
 ];
 
-const server = http.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: allowedOrigins,
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type'],
-  },
-});
+// const server = http.createServer(app);
+// const io = new Server(server, {
+//   cors: {
+//     origin: allowedOrigins,
+//     methods: ['GET', 'POST'],
+//     allowedHeaders: ['Content-Type'],
+//   },
+// });
 
 // Enable CORS for HTTP requests
 app.use(cors({
@@ -76,6 +76,6 @@ app.post('/stop-socket', (req, res) => {
   res.send('Socket server stopped');
 });
 
-server.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log('Server is running on port', PORT);
 });
