@@ -12,22 +12,15 @@ const PORT = process.env.PORT || 3000;
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
+    origin: allowedOrigins,
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
   },
 });
 
-// Enable CORS for HTTP requests
 const allowedOrigins = [
-  'http://localhost:3000/*', 
-  'https://yt-to-mp3-converter-70efoxzcx-hasinthas-projects.vercel.app/*'
+  'http://localhost:3000', 
+  'https://yt-to-mp3-converter-70efoxzcx-hasinthas-projects.vercel.app'
 ];
 
 // Enable CORS for HTTP requests
@@ -49,6 +42,7 @@ app.use(bodyParser.json());
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
 app.post('/api/download', async (req, res) => {
   const { url } = req.body;
 
@@ -81,6 +75,7 @@ app.post('/stop-socket', (req, res) => {
   io.close(); // Close the Socket.IO server
   res.send('Socket server stopped');
 });
+
 server.listen(PORT, () => {
   console.log('Server is running on port', PORT);
 });
