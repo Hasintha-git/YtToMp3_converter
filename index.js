@@ -11,8 +11,7 @@ const PORT = process.env.PORT || 3000;
 
 const allowedOrigins = [
   'http://localhost:3000', 
-  'https://ytmpconvert-5bb3f7bd490e.herokuapp.com/',
-  'https://ytmpconvert-5bb3f7bd490e.herokuapp.com/api/download'
+  'https://ytmpconvert-5bb3f7bd490e.herokuapp.com',
 ];
 const server = http.createServer(app);
 const io = new Server(server, {
