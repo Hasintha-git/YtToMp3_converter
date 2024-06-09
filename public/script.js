@@ -91,17 +91,18 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
-
 function toggleDescription(descriptionId) {
-  var description = document.getElementById(descriptionId);
-
-  if (description.style.display === "none") {
-    description.style.display = "block";
-  } else {
-    description.style.display = "none";
+    var description = document.getElementById(descriptionId);
+  
+    
+    // Check if the display property is not explicitly set to "block"
+    if (description.style.display !== "block") {
+      description.style.display = "block"; // If not, set it to "block"
+    } else {
+      description.style.display = "none"; // Otherwise, toggle it to "none"
+    }
   }
-}
-
+  
 document.addEventListener("DOMContentLoaded", function () {
   var descriptions = document.querySelectorAll(".box-description");
   descriptions.forEach(function (description) {
