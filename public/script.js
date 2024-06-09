@@ -1,5 +1,5 @@
-const URL = "https://yt-to-mp3-converter-pearl.vercel.app//api/download";
-const socket = io("https://yt-to-mp3-converter-pearl.vercel.app/");
+const URL = "https://ytmpconvert-5bb3f7bd490e.herokuapp.com/api/download";
+const socket = io("https://ytmpconvert-5bb3f7bd490e.herokuapp.com/");
 
 document.getElementById('convertForm').addEventListener('submit', function(event) {
   event.preventDefault();
