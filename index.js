@@ -7,7 +7,7 @@ const http = require('http');
 const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3049;
 
 const allowedOrigins = [
   'http://localhost:3000', 

@@ -1,8 +1,27 @@
 {
+  "name": "yt-to-mp3-converter",
+  "version": "1.0.0",
+  "description": "A simple YouTube to MP3 converter",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx supervisor index.js",
+    "start": "node index.js"
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "socket.io": "^4.7.5",
     "ytdl-core": "^4.11.5"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hasintha-git/YtToMp3_converter"
+  },
+  "keywords": [
+    "youtube",
+    "mp3",
+    "converter",
+    "express",
+    "socket.io"
+  ]
 }
