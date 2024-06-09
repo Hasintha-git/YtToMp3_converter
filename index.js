@@ -5,16 +5,14 @@ const ytdl = require('ytdl-core');
 const { Server } = require('socket.io');
 const http = require('http');
 const path = require('path');
-const ffmpeg = require('fluent-ffmpeg');
 
 const app = express();
-const PORT = process.env.PORT || 3049;
+const PORT = process.env.PORT || 3000;
 
 const allowedOrigins = [
   'http://localhost:3000', 
   'https://ytmpconvert-5bb3f7bd490e.herokuapp.com/',
 ];
-
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
@@ -56,18 +54,7 @@ app.post('/api/download', async (req, res) => {
     const format = ytdl.chooseFormat(info.formats, { quality: 'highestaudio' });
 
     res.setHeader('Content-Disposition', 'attachment; filename="audio.mp3"');
-
-    const stream = ytdl(url, { format });
-
-    ffmpeg(stream)
-      .audioBitrate(128) // Set the audio bitrate to 128 kbps
-      .format('mp3')
-      .on('error', (err) => {
-        console.error('Error converting video:', err);
-        res.status(500).json({ error: 'Failed to convert video' });
-      })
-      .pipe(res, { end: true });
-
+    ytdl(url, { format }).pipe(res);
   } catch (error) {
     console.error('Error fetching video info:', error);
     res.status(500).json({ error: 'Failed to download video' });

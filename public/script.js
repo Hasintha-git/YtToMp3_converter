@@ -1,56 +1,62 @@
 const URL = "https://ytmpconvert-5bb3f7bd490e.herokuapp.com/api/download";
 const socket = io("https://ytmpconvert-5bb3f7bd490e.herokuapp.com/");
 
+// const URL = "http://localhost:3000/api/download";
+// const socket = io("http://localhost:3000/");
+
 document.getElementById('convertForm').addEventListener('submit', function(event) {
-  event.preventDefault();
-  const urlInput = document.getElementById('urlInput');
-  const urlText = urlInput.value.trim();
-  const convertButton = document.getElementById('convertButton');
-  const downloadStatus = document.getElementById('downloadStatus');
-
-  if (!isValidYouTubeUrl(urlText)) {
-    showError("Invalid YouTube URL. Please enter a valid YouTube video link.");
-    return;
-  }
-
-  document.getElementById('errorContainer').classList.add('hidden');
-  document.getElementById('videoDetailsContainer').classList.add('hidden');
+    event.preventDefault();
+    const urlInput = document.getElementById('urlInput');
+    const urlText = urlInput.value.trim();
+    const convertButton = document.getElementById('convertButton');
+    const downloadStatus = document.getElementById('downloadStatus');
   
-  // Hide convertForm and show downloadInpForm
-  document.getElementById('convertForm').classList.add('hidden');
-  document.getElementById('downloadInpForm').classList.remove('hidden');
-  downloadStatus.textContent = "Preparing Conversion...";
-
-  axios.post(URL, { url: urlText }, {
-    responseType: "blob",
-    onDownloadProgress: (progressEvent) => {
-      downloadStatus.textContent = "Initializing Conversion...";
-    },
-  })
-  .then((response) => {
-    const url = window.URL.createObjectURL(new Blob([response.data]));
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", "audio.mp3");
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-
-    // Hide downloadInpForm and show convertForm
-    document.getElementById('downloadInpForm').classList.add('hidden');
-    document.getElementById('convertForm').classList.remove('hidden');
-    urlInput.value = '';
-  })
-  .catch((error) => {
-    const errorMessage = error.response && error.response.data.error ? error.response.data.error : "Download failed";
-    showError(errorMessage);
-
-    // Hide downloadInpForm and show convertForm
-    document.getElementById('downloadInpForm').classList.add('hidden');
-    document.getElementById('convertForm').classList.remove('hidden');
+    if (!isValidYouTubeUrl(urlText)) {
+      showError("Invalid YouTube URL. Please enter a valid YouTube video link.");
+      return;
+    }
+  
+    document.getElementById('errorContainer').classList.add('hidden');
+    document.getElementById('videoDetailsContainer').classList.add('hidden');
+    
+    // Hide convertForm and show downloadInpForm
+    document.getElementById('convertForm').classList.add('hidden');
+    document.getElementById('downloadInpForm').classList.remove('hidden');
+    downloadStatus.textContent = "Preparing Conversion...";
+  
+    axios.post(URL, { url: urlText }, {
+      responseType: "arraybuffer", // Use responseType arraybuffer for binary data
+      onDownloadProgress: (progressEvent) => {
+        downloadStatus.textContent = "Downloading... ";
+      },
+    })
+    .then((response) => {
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "audio.mp3");
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+  
+      // Hide downloadInpForm and show convertForm
+      document.getElementById('downloadInpForm').classList.add('hidden');
+      document.getElementById('convertForm').classList.remove('hidden');
+      urlInput.value = '';    
+      // Refresh the browser after successful download
+      location.reload();
+    })
+    .catch((error) => {
+      const errorMessage = error.response && error.response.data.error ? error.response.data.error : "Download failed";
+      showError(errorMessage);
+  
+      // Hide downloadInpForm and show convertForm
+      document.getElementById('downloadInpForm').classList.add('hidden');
+      document.getElementById('convertForm').classList.remove('hidden');
+    });
   });
-});
-
+  
+  
 function showError(message) {
     document.getElementById('errorMessage').textContent = message;
     document.getElementById('errorContainer').classList.remove('hidden');
