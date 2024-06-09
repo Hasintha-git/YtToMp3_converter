@@ -9,8 +9,11 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const allowedOrigins = ['*'];
-
+const allowedOrigins = [
+  'http://localhost:3000', 
+  'https://ytmpconvert-5bb3f7bd490e.herokuapp.com/',
+  'https://ytmpconvert-5bb3f7bd490e.herokuapp.com/api/download'
+];
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
