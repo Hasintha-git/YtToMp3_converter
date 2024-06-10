@@ -1,5 +1,5 @@
-const URL = "https://ytmpconvert-5bb3f7bd490e.herokuapp.com/api/download";
-const socket = io("https://ytmpconvert-5bb3f7bd490e.herokuapp.com");
+const URL = "https://ytmp3converter-e7e60e67d645.herokuapp.com/api/download";
+const socket = io("https://ytmp3converter-e7e60e67d645.herokuapp.com");
 
 // const URL = "http://localhost:3000/api/download";
 // const socket = io("http://localhost:3000/");
