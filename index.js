@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 const allowedOrigins = [
   'http://localhost:3000', 
   'https://ytmpconvert-5bb3f7bd490e.herokuapp.com',
+  'https://yt2mp3converter.xyz',
 ];
 const server = http.createServer(app);
 const io = new Server(server, {
