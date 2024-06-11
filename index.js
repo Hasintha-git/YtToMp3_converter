@@ -13,6 +13,7 @@ const allowedOrigins = [
   'http://localhost:3000', 
   'https://ytmp3converter-e7e60e67d645.herokuapp.com',
   'https://yt2mp3converter.xyz',
+  'https://www.yt2mp3converter.xyz/'
 ];
 const server = http.createServer(app);
 const io = new Server(server, {
