@@ -55,12 +55,28 @@ app.post('/api/download', async (req, res) => {
     const format = ytdl.chooseFormat(info.formats, { quality: 'highestaudio' });
 
     res.setHeader('Content-Disposition', 'attachment; filename="audio.mp3"');
-    ytdl(url, { format }).pipe(res);
+    ytdl(url, { format })
+      .on('response', (response) => {
+        // This event is emitted when the download starts
+        console.log('Download started');
+        response.on('data', (chunk) => {
+          console.log(`Received ${chunk.length} bytes of data.`);
+        });
+        response.on('end', () => {
+          console.log('Download complete');
+        });
+      })
+      .on('error', (error) => {
+        console.error('Error during download:', error);
+        res.status(500).json({ error: 'Failed to download video' });
+      })
+      .pipe(res);
   } catch (error) {
     console.error('Error fetching video info:', error);
     res.status(500).json({ error: 'Failed to download video' });
   }
 });
+
 
 io.on('connection', (socket) => {
   console.log('a user connected');
