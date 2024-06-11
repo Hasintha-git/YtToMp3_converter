@@ -1,5 +1,5 @@
-const URL = "https://www.yt2mp3converter.xyz/api/download";
-const socket = io("https://www.yt2mp3converter.xyz");
+const URL = "https://yt2mp3converter.xyz/api/download";
+const socket = io("https://yt2mp3converter.xyz");
 
 // const URL = "http://localhost:3000/api/download";
 // const socket = io("http://localhost:3000/");
